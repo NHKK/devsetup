@@ -16,33 +16,32 @@ local check_backspace = function()
 end
 
 local kind_icons = {
-  Text = "📘",
-  Method = "💊",
+  Text = "",
+  Method = "",
   Function = "",
-  Constructor = "🚜",
-  Field = "🌾",
-  Variable = "",
-  Class = "🎩",
-  Interface = "🔌",
+  Constructor = "",
+  Field = "ﰠ",
+  Variable = "",
+  Class = "ﴯ",
+  Interface = "",
   Module = "",
-  Property = "",
-  Unit = "",
-  Value = "🤑",
-  Enum = "🚦",
+  Property = "ﰠ",
+  Unit = "塞",
+  Value = "",
+  Enum = "",
   Keyword = "",
-  Snippet = "",
-  Color = "🎨",
+  Snippet = "",
+  Color = "",
   File = "",
-  Reference = "",
-  Folder = "🗂",
+  Reference = "",
+  Folder = "",
   EnumMember = "",
-  Constant = "💎",
-  Struct = "",
+  Constant = "",
+  Struct = "פּ",
   Event = "",
   Operator = "",
-  TypeParameter = "",
+  TypeParameter = ""
 }
--- find more here: https://www.nerdfonts.com/cheat-sheet
 
 cmp.setup {
   snippet = {
@@ -51,18 +50,16 @@ cmp.setup {
     end,
   },
   mapping = {
-    ["<C-k>"] = cmp.mapping.select_prev_item(),
-    ["<C-j>"] = cmp.mapping.select_next_item(),
-    ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+--    ["<C-k>"] = cmp.mapping.select_prev_item(),
+--    ["<C-j>"] = cmp.mapping.select_next_item(),
+    ["<C-S-f>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
     ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+--    ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ["<C-e>"] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
-    -- Accept currently selected item. If none selected, `select` first item.
-    -- Set `select` to `false` to only confirm explicitly selected items.
     ["<CR>"] = cmp.mapping.confirm { select = true },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -120,12 +117,11 @@ cmp.setup {
     select = false,
   },
   window = {
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
-  },
-  experimental = {
-    ghost_text = false,
-    native_menu = false,
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered()
+
+   -- documentation = {
+   --   border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+   -- },
   },
 }

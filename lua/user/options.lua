@@ -8,7 +8,6 @@ local options = {
     fileencoding = "utf-8",
     hlsearch = true,
     ignorecase = true,
-    mouse = "a",
     pumheight = 10,
     showmode = false,
     showtabline = 2,
@@ -32,9 +31,12 @@ local options = {
     wrap = false,
     scrolloff = 8,
     sidescrolloff = 8,
-    guifont = "hack:h17"
-}
+    guifont = "hack:h17",
+    mouse = "c",
 
+    -- Plugins
+    completeopt = { 'menuone', 'noselect', 'noinsert'},
+}
 vim.opt.shortmess:append "c"
 
 for k, v in pairs(options) do
