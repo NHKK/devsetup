@@ -1,6 +1,5 @@
 local opts = { noremap = true, silent = true }
 
-
 -- Shorten function name
 --local keymap = vim.api.nvim_set_keymap
 local keymap = function(mode, key, cmd, opts)
@@ -14,6 +13,7 @@ vim.g.maplocalleader = " "
 
 -- Normal(n) --
 -- Better window navigation
+keymap("n", "<BS>", "<C-w>h", opts)
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
@@ -21,7 +21,7 @@ keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Split windows
 keymap("n", "sh", ":split<Return><C-w>w", opts)
-keymap("n", "sv", ":vsplit<Return><C-w>w", opts)
+keymap("n", "sv", ":vsplit<Return><C-w>w", { noremap = true})
 
 -- Visual(v) --
 -- Stay in indent mode
@@ -40,14 +40,9 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
--- Command(c) --
---
-
--- Telescope configs --
-keymap("n", "<space>f",
-  "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>",
-  opts)
-keymap("n", "<space>fw", "<cmd>Telescope live_grep<cr>", opts)
+-- Telescope
+keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>",opts)
+keymap("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", opts)
 
 -- NvimTree
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
@@ -55,4 +50,4 @@ keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 -- cokeline
 keymap("n", "<Tab>", "<Plug>(cokeline-focus-next)", opts)
 keymap("n", "<S-Tab>", "<Plug>(cokeline-focus-prev)", opts)
-keymap("n", "bd", "<Plug>(cokeline-pick-close)", opts)
+keymap("n", "<C-w>", "<Plug>(cokeline-pick-close)", opts)
