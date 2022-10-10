@@ -69,7 +69,9 @@ return packer.startup(function(use)
   use "kyazdani42/nvim-tree.lua"
 
   -- bufferline
-   use "noib3/nvim-cokeline"
+  -- use "noib3/nvim-cokeline"
+
+  use 'nanozuki/tabby.nvim'
 
   -- lualine
   use "nvim-lualine/lualine.nvim"
