@@ -38,61 +38,73 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
   use "wbthomason/packer.nvim"
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
+
+  -- THEME
+  use {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+      require("catppuccin").setup()
+      vim.api.nvim_command "colorscheme catppuccin"
+    end
+  }
+
+  -- Fzf
+  use { 'ibhagwan/fzf-lua',
+    requires = { 'kyazdani42/nvim-web-devicons' }
+  }
+
+  -- Telescope
   use "nvim-lua/popup.nvim"
   use "nvim-lua/plenary.nvim"
-  use 'folke/tokyonight.nvim'
-
-  -- completion plugins (cmp)
-  use "hrsh7th/nvim-cmp"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-cmdline"
-
-  -- snippets plugin
-  use "saadparwaiz1/cmp_luasnip"
-  use "L3MON4D3/LuaSnip"
-
-  -- lsp plugins
-  use 'hrsh7th/cmp-nvim-lsp' --
-  use 'hrsh7th/cmp-nvim-lua'
-  use "neovim/nvim-lspconfig"
-  use "williamboman/nvim-lsp-installer"
-  use "jose-elias-alvarez/null-ls.nvim"
-
-  -- Telescope (fzf)
   use "nvim-telescope/telescope.nvim"
-  use 'nvim-telescope/telescope-media-files.nvim'
+  use "nvim-telescope/telescope-media-files.nvim"
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+  -- nvim-tree
+  use "kyazdani42/nvim-web-devicons"
+  use "kyazdani42/nvim-tree.lua"
+
+  -- bufferline
+   use "noib3/nvim-cokeline"
+
+  -- lualine
+  use "nvim-lualine/lualine.nvim"
+
+  -- Completion framework:
+  use 'hrsh7th/nvim-cmp' 
+
+  -- LSP completion source:
+  use 'hrsh7th/cmp-nvim-lsp'
+
+  -- Useful completion sources:
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/vim-vsnip'
 
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
   }
-  use "p00f/nvim-ts-rainbow"
 
-  -- autopairs
+  use "p00f/nvim-ts-rainbow"
   use "windwp/nvim-autopairs"
 
-  -- nvim-tree
-  use 'kyazdani42/nvim-web-devicons'
-  use 'kyazdani42/nvim-tree.lua'
+  -- Indentation Guide
+  use "lukas-reineke/indent-blankline.nvim" 
 
-  -- bufferline
-  --  use "akinsho/bufferline.nvim"
-  use 'noib3/nvim-cokeline'
-
-  -- lualine
-  use 'nvim-lualine/lualine.nvim'
-
-  -- indentation guidelines
-  use "lukas-reineke/indent-blankline.nvim"
-
-  --debugger
+  -- Debugger
   use "mfussenegger/nvim-dap"
   use "theHamsta/nvim-dap-virtual-text"
   use "rcarriga/nvim-dap-ui"
-  --use "nvim-telescope/telescope-dap.nvim"
-  use "Pocco81/DAPInstall.nvim"
+  use "nvim-telescope/telescope-dap.nvim"
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()
