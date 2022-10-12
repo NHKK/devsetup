@@ -38,23 +38,39 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
   use "wbthomason/packer.nvim"
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
+
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-nvim-lua'},
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},
+      {'rafamadriz/friendly-snippets'},
+    }
+  }
+
 
   -- THEME
   use {
     "catppuccin/nvim",
     as = "catppuccin",
     config = function()
-      vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+      vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
       require("catppuccin").setup()
       vim.api.nvim_command "colorscheme catppuccin"
     end
-  }
-
-  -- Fzf
-  use { 'ibhagwan/fzf-lua',
-    requires = { 'kyazdani42/nvim-web-devicons' }
   }
 
   -- Telescope
@@ -68,27 +84,8 @@ return packer.startup(function(use)
   use "kyazdani42/nvim-web-devicons"
   use "kyazdani42/nvim-tree.lua"
 
-  -- bufferline
-  -- use "noib3/nvim-cokeline"
-
-  use 'nanozuki/tabby.nvim'
-
   -- lualine
   use "nvim-lualine/lualine.nvim"
-
-  -- Completion framework:
-  use 'hrsh7th/nvim-cmp' 
-
-  -- LSP completion source:
-  use 'hrsh7th/cmp-nvim-lsp'
-
-  -- Useful completion sources:
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'hrsh7th/cmp-nvim-lsp-signature-help'
-  use 'hrsh7th/cmp-vsnip'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/vim-vsnip'
 
   -- Treesitter
   use {
@@ -100,7 +97,10 @@ return packer.startup(function(use)
   use "windwp/nvim-autopairs"
 
   -- Indentation Guide
-  use "lukas-reineke/indent-blankline.nvim" 
+  use "lukas-reineke/indent-blankline.nvim"
+
+  -- Tabs
+  use 'nanozuki/tabby.nvim'
 
   -- Debugger
   use "mfussenegger/nvim-dap"

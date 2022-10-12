@@ -21,7 +21,7 @@ keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Split windows
 keymap("n", "sh", ":split<Return><C-w>w", opts)
-keymap("n", "sv", ":vsplit<Return><C-w>w", { noremap = true})
+keymap("n", "sv", ":vsplit<Return><C-w>w", opts)
 
 -- Visual(v) --
 -- Stay in indent mode
@@ -46,8 +46,3 @@ keymap("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", opts)
 
 -- NvimTree
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
-
--- cokeline
-keymap("n", "<Tab>", "<Plug>(cokeline-focus-next)", opts)
-keymap("n", "<S-Tab>", "<Plug>(cokeline-focus-prev)", opts)
-keymap("n", "<C-w>", "<Plug>(cokeline-pick-close)", opts)
