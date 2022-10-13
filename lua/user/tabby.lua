@@ -12,10 +12,10 @@ local tabline = require 'tabby.tabline'
 local api = require 'tabby.module.api'
 
 local theme = {
-	fill = { fg = '#a89984', bg = '#181818' },
-	head = { fg = '#a89984', bg = '#32302f' },
-	current_tab = { fg = '#181818', bg = '#a89984' },
-	tab = { fg = '#a89984', bg = '#32302f' },
+	fill = { fg = '#f7fff7', bg = '#181818' },
+    head = { fg = '#ff6b6b', bg = '#292f36' },
+    current_tab = { fg = '#ffffff', bg = '#bac2de' },
+    tab = { fg = '#a6e3a1', bg = '#292f36' },
 }
 
 local tab_name = function(tab)
