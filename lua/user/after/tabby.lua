@@ -1,21 +1,11 @@
-vim.api.nvim_set_keymap("n", "<A-t>", ":tabnew<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<A-S-t>", ":tabclose<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<Tab>", ":tabn<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<S-Tab>", ":tabp<CR>", { noremap = true })
--- move current tab to previous position
-vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
--- move current tab to next position
-vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
-
 local tabline = require 'tabby.tabline'
 local api = require 'tabby.module.api'
 
 local theme = {
-	fill = { fg = '#f7fff7', bg = '#181818' },
-    head = { fg = '#ff6b6b', bg = '#292f36' },
-    current_tab = { fg = '#ffffff', bg = '#bac2de' },
-    tab = { fg = '#a6e3a1', bg = '#292f36' },
+	fill = { fg = '#a89984', bg = '#181818' },
+	head = { fg = '#a89984', bg = '#32302f' },
+	current_tab = { fg = '#181818', bg = '#a89984' },
+	tab = { fg = '#a89984', bg = '#32302f' },
 }
 
 local tab_name = function(tab)
@@ -81,4 +71,3 @@ end, {
 		mode = 'unique',
 	},
 })
-

@@ -141,12 +141,12 @@ vim.keymap.set("n", "<C-S-D>", function () attach() end)
 vim.api.nvim_set_keymap("n", "<C-Space>", "<CMD>lua require('dap').toggle_breakpoint()<CR>",
   { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F5>", "<CMD>lua require('dap').continue()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>di", "<CMD>lua require('dapui').eval()<CR>",
+vim.api.nvim_set_keymap("n", "di", "<CMD>lua require('dapui').eval()<CR>",
   { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F10>", "<CMD>lua require('dap').over()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F11>", "<CMD>lua require('dap').step_into()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F12>", "<CMD>lua require('dap').step_out()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "dbq", "<CMD>lua require('dap').terminate()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "dq", "<CMD>lua require('dap').terminate()<CR>", { noremap = true, silent = true })
 
 -- ╭──────────────────────────────────────────────────────────╮
 -- │ Adapters                                                 │
