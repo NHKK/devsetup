@@ -30,25 +30,11 @@ dap.adapters.node2 = {
   args = {}
 }
 
-
-
--- dap.adapters.node2 = {
---     type = 'executable',
---     command = 'node',
---     args = {
---         os.getenv('HOME') ..
---             '/.local/share/nvim/site/pack/packer/opt/vscode-node-debug2/out/src/nodeDebug.js'
---     }
--- }
-
 -- dap.defaults.fallback.terminal_win_cmd = '20split new'
 
-vim.fn.sign_define('DapBreakpoint',
-                   {text = '🛑', texthl = '', linehl = '', numhl = ''})
-vim.fn.sign_define('DapBreakpointRejected',
-                   {text = '🟦', texthl = '', linehl = '', numhl = ''})
-vim.fn.sign_define('DapStopped',
-                   {text = '🍡', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapBreakpoint', {text = '🛑', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapBreakpointRejected', {text = '🟦', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapStopped', {text = '🍡', texthl = '', linehl = '', numhl = ''})
 
 vim.keymap.set('n', '<leader>db', function() require"dap".toggle_breakpoint() end)
 vim.keymap.set('n', '<leader>dd', function() require("dapui").toggle() end)
@@ -85,27 +71,3 @@ vim.keymap.set('n', '<leader>dA', function()
 end)
 
 require('nvim-dap-virtual-text').setup()
--- require("dap-vscode-js").setup({
---     adapters = {
---         'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal',
---         'pwa-extensionHost'
---     }
--- })
--- local function debugJest(testName, filename)
---   print("starting " .. testName .. " in " .. filename)
---   dap.run({
---       type = 'node2',
---       request = 'launch',
---       cwd = vim.fn.getcwd(),
---       runtimeArgs = {'--inspect-brk', '/usr/local/bin/jest', '--no-coverage', '-t', testName, '--', filename},
---       sourceMaps = true,
---       protocol = 'inspector',
---       skipFiles = {'<node_internals>/**/*.js'},
---       console = 'integratedTerminal',
---       port = 9229,
---       })
--- end
---
---
-
-

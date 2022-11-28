@@ -55,15 +55,3 @@ keymap("n", "<C-F>", ":LspZeroFormat<CR>", opts)
 -- Trouble Toggle
 keymap("n", "<leader>xx", ":TroubleToggle<CR>", opts)
 
-
--- Vimspector
---keymap("n", "<leader>dd", ":call vimspector#Launch()", { noremap = true })
---keymap("n", "<F5>", ":call vimspector#Continue()", { noremap = true })
---keymap("n", "<F2>", ":call vimspector#ToggleBreakpoint()", { noremap = true })
--- keymap("n", "<F5>", "<Plug>VimspectorContinue", { noremap = true })
--- keymap("n", "<F2>", "<Plug>VimspectorToggleBreakpoint", { noremap = true })
--- keymap("n", "<F3>", "<Plug>VimspectorStop", { noremap = true })
--- keymap("n", "<F4>", "<Plug>VimspectorRestart", { noremap = true })
-
-
-

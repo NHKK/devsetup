@@ -137,33 +137,9 @@ return packer.startup(function(use)
     end,
   })
 
-  -- use {
-  --   "puremourning/vimspector",
-  --   cmd = { "VimspectorInstall", "VimspectorUpdate" },
-  --   fn = { "vimspector#Launch()", "vimspector#ToggleBreakpoint", "vimspector#Continue" },
-  --   config = function()
-  --     require("user.after.vimspector")
-  --   end,
-  -- }
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use 'nvim-telescope/telescope-dap.nvim'
   use 'theHamsta/nvim-dap-virtual-text'
-  -- use({
-  --   "mxsdev/nvim-dap-vscode-js",
-  --   config = function()
-  --     require("user.after.dap")
-  --   end
-  -- })
-  -- use {
-  --   "microsoft/vscode-js-debug",
-  --   opt = true,
-  --   run = "npm install --legacy-peer-deps && npm run compile"
-  -- }
-  -- use {
-  --   "microsoft/vscode-node-debug2",
-  --   opt = true,
-  --   run = "npm install && NODE_OPTIONS=--no-experimental-fetch npm run build"
-  -- }
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()
