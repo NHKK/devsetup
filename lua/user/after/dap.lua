@@ -23,6 +23,7 @@ dap.configurations.javascript = {
     protocol = "inspector",
   }
 }
+dap.configurations.typescript = dap.configurations.javascript
 
 dap.adapters.node2 = {
   type = "executable",
