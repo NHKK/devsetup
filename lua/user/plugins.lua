@@ -57,14 +57,14 @@ return packer.startup(function(use)
 
   -- File Tree
   use {
-  "nvim-neo-tree/neo-tree.nvim",
+    "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-    config = function ()
+    config = function()
       require("neo-tree").setup({
         close_if_last_window = true,
         window = {
@@ -90,19 +90,29 @@ return packer.startup(function(use)
   use {
     'junnplus/lsp-setup.nvim',
     requires = {
-        'neovim/nvim-lspconfig',
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
+      'neovim/nvim-lspconfig',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
     }
   }
+
 
   use({
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
-        require("null-ls").setup()
+      require("user.after.null")
     end,
-    requires = { "nvim-lua/plenary.nvim" },
+    requires = { "nvim-lua/plenary.nvim", "MunifTanjim/prettier.nvim" },
   })
+
+  -- AFTER LSP
+  use({
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require("symbols-outline").setup()
+    end
+  })
+
 
   -- Treesitter
   use {
@@ -127,12 +137,33 @@ return packer.startup(function(use)
     end,
   })
 
-
-  -- Debugger
-  --use "mfussenegger/nvim-dap"
-  --use "theHamsta/nvim-dap-virtual-text"
-  --use "rcarriga/nvim-dap-ui"
-  --use "nvim-telescope/telescope-dap.nvim"
+  -- use {
+  --   "puremourning/vimspector",
+  --   cmd = { "VimspectorInstall", "VimspectorUpdate" },
+  --   fn = { "vimspector#Launch()", "vimspector#ToggleBreakpoint", "vimspector#Continue" },
+  --   config = function()
+  --     require("user.after.vimspector")
+  --   end,
+  -- }
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use 'nvim-telescope/telescope-dap.nvim'
+  use 'theHamsta/nvim-dap-virtual-text'
+  -- use({
+  --   "mxsdev/nvim-dap-vscode-js",
+  --   config = function()
+  --     require("user.after.dap")
+  --   end
+  -- })
+  -- use {
+  --   "microsoft/vscode-js-debug",
+  --   opt = true,
+  --   run = "npm install --legacy-peer-deps && npm run compile"
+  -- }
+  -- use {
+  --   "microsoft/vscode-node-debug2",
+  --   opt = true,
+  --   run = "npm install && NODE_OPTIONS=--no-experimental-fetch npm run build"
+  -- }
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()

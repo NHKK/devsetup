@@ -39,7 +39,9 @@ keymap("n", ";w", "<cmd>Telescope live_grep<cr>", opts)
 
 -- File Explorer
 keymap("n", "<leader>e", ":Neotree<CR>", opts)
-keymap("n", "<leader>p", "<Plug>(fern-action-preview:auto:toggle)", opts)
+
+-- Symbol outline
+keymap("n", "<leader>p", ":SymbolsOutline<CR>", opts)
 --keymap("n", "<C-p>", "<Plug>(fern-action-preview:auto:toggle)", opts)
 
 -- Tab
@@ -50,6 +52,18 @@ keymap("n", "<S-Tab>", ":tabp<CR>", opts)
 
 keymap("n", "<C-F>", ":LspZeroFormat<CR>", opts)
 
--- Database
---keymap("n", "<leader>du", ":DBUIToggle<CR>", opts)
+-- Trouble Toggle
+keymap("n", "<leader>xx", ":TroubleToggle<CR>", opts)
+
+
+-- Vimspector
+--keymap("n", "<leader>dd", ":call vimspector#Launch()", { noremap = true })
+--keymap("n", "<F5>", ":call vimspector#Continue()", { noremap = true })
+--keymap("n", "<F2>", ":call vimspector#ToggleBreakpoint()", { noremap = true })
+-- keymap("n", "<F5>", "<Plug>VimspectorContinue", { noremap = true })
+-- keymap("n", "<F2>", "<Plug>VimspectorToggleBreakpoint", { noremap = true })
+-- keymap("n", "<F3>", "<Plug>VimspectorStop", { noremap = true })
+-- keymap("n", "<F4>", "<Plug>VimspectorRestart", { noremap = true })
+
+
 
