@@ -15,11 +15,14 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 vim.cmd [[
-  augroup packer_user_config
+  augroup packer_user.after
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]]
+
+-- USE in conjunction with neotree
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
@@ -39,74 +42,128 @@ packer.init {
 return packer.startup(function(use)
   use "wbthomason/packer.nvim"
 
-  use {
-    'VonHeikemen/lsp-zero.nvim',
-    requires = {
-      -- LSP Support
-      {'neovim/nvim-lspconfig'},
-      {'williamboman/mason.nvim'},
-      {'williamboman/mason-lspconfig.nvim'},
+  -----------------------------------------------------
+  --REQUIRED-------------------------------------------
+  -----------------------------------------------------
+  use("nvim-lua/plenary.nvim")
 
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'saadparwaiz1/cmp_luasnip'},
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
-
-      -- Snippets
-      {'L3MON4D3/LuaSnip'},
-      {'rafamadriz/friendly-snippets'},
-    }
-  }
-
-
-  -- THEME
-  use {
-    "catppuccin/nvim",
-    as = "catppuccin",
+  -- ICONS
+  use({
+    "kyazdani42/nvim-web-devicons",
     config = function()
-      vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-      require("catppuccin").setup()
-      vim.api.nvim_command "colorscheme catppuccin"
+      require("nvim-web-devicons").setup()
+    end,
+  })
+
+  -- File Tree
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    config = function()
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        window = {
+          position = "right",
+        },
+      })
+
+      vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
     end
   }
 
   -- Telescope
-  use "nvim-lua/popup.nvim"
-  use "nvim-lua/plenary.nvim"
-  use "nvim-telescope/telescope.nvim"
+  use({
+    "nvim-telescope/telescope.nvim",
+    config = function()
+      require("user.after.telescope")
+    end
+  })
   use "nvim-telescope/telescope-media-files.nvim"
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
-  -- nvim-tree
-  use "kyazdani42/nvim-web-devicons"
-  use "kyazdani42/nvim-tree.lua"
+  -- LSP
+  use {
+    'junnplus/lsp-setup.nvim',
+    requires = {
+      'neovim/nvim-lspconfig',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+    }
+  }
 
-  -- lualine
-  use "nvim-lualine/lualine.nvim"
+
+  use({
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      require("user.after.null")
+    end,
+    requires = { "nvim-lua/plenary.nvim", "MunifTanjim/prettier.nvim" },
+  })
+
+  -- AFTER LSP
+  use({
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require("symbols-outline").setup()
+    end
+  })
+
 
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
+    config = function()
+      require("user.after.treesitter")
+    end
   }
 
-  use "p00f/nvim-ts-rainbow"
-  use "windwp/nvim-autopairs"
+  -- Mini
+  use({
+    "echasnovski/mini.nvim",
+    config = function()
+      require("user.after.mini.base16")
+      require("user.after.mini.comment")
+      require("user.after.mini.indentscope")
+      require("user.after.mini.jump2d")
+      require("user.after.mini.pairs")
+      require("user.after.mini.statusline")
+      require("user.after.mini.tabline")
+    end,
+  })
 
-  -- Indentation Guide
-  use "lukas-reineke/indent-blankline.nvim"
-
-  -- Tabs
-  use 'nanozuki/tabby.nvim'
-
-  -- Debugger
-  use "mfussenegger/nvim-dap"
-  use "theHamsta/nvim-dap-virtual-text"
-  use "rcarriga/nvim-dap-ui"
-  use "nvim-telescope/telescope-dap.nvim"
+  -- use {
+  --   "puremourning/vimspector",
+  --   cmd = { "VimspectorInstall", "VimspectorUpdate" },
+  --   fn = { "vimspector#Launch()", "vimspector#ToggleBreakpoint", "vimspector#Continue" },
+  --   config = function()
+  --     require("user.after.vimspector")
+  --   end,
+  -- }
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use 'nvim-telescope/telescope-dap.nvim'
+  use 'theHamsta/nvim-dap-virtual-text'
+  -- use({
+  --   "mxsdev/nvim-dap-vscode-js",
+  --   config = function()
+  --     require("user.after.dap")
+  --   end
+  -- })
+  -- use {
+  --   "microsoft/vscode-js-debug",
+  --   opt = true,
+  --   run = "npm install --legacy-peer-deps && npm run compile"
+  -- }
+  -- use {
+  --   "microsoft/vscode-node-debug2",
+  --   opt = true,
+  --   run = "npm install && NODE_OPTIONS=--no-experimental-fetch npm run build"
+  -- }
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()
