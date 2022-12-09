@@ -71,8 +71,6 @@ return packer.startup(function(use)
           position = "right",
         },
       })
-
-      vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
     end
   }
 
@@ -93,16 +91,22 @@ return packer.startup(function(use)
       'neovim/nvim-lspconfig',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-    }
+    },
   }
-
 
   use({
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
       require("user.after.null")
     end,
-    requires = { "nvim-lua/plenary.nvim", "MunifTanjim/prettier.nvim" },
+    requires = { "nvim-lua/plenary.nvim", "MunifTanjim/prettier.nvim", "jayp0521/mason-null-ls.nvim" },
+  })
+
+  use({
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
   })
 
   -- AFTER LSP
@@ -140,6 +144,14 @@ return packer.startup(function(use)
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use 'nvim-telescope/telescope-dap.nvim'
   use 'theHamsta/nvim-dap-virtual-text'
+
+  use ({
+    'kristijanhusak/vim-dadbod-ui',
+    config = function()
+      require("user.after.dadbod")
+    end,
+    requires = { 'tpope/vim-dadbod' }
+  })
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()

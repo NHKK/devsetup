@@ -38,7 +38,8 @@ keymap("n", ";f", "<cmd>lua require'telescope.builtin'.find_files(require('teles
 keymap("n", ";w", "<cmd>Telescope live_grep<cr>", opts)
 
 -- File Explorer
-keymap("n", "<leader>e", ":Neotree<CR>", opts)
+-- keymap("n", "<leader>e", "<cmd>Neotree toggle<cr>", opts)
+keymap("n", ";e", "<cmd>Neotree toggle<cr>", opts)
 
 -- Symbol outline
 keymap("n", "<leader>p", ":SymbolsOutline<CR>", opts)
@@ -50,8 +51,4 @@ keymap("n", "<C-w>", ":tabclose<CR>", opts)
 keymap("n", "<Tab>", ":tabn<CR>", opts)
 keymap("n", "<S-Tab>", ":tabp<CR>", opts)
 
-keymap("n", "<C-F>", ":LspZeroFormat<CR>", opts)
-
--- Trouble Toggle
-keymap("n", "<leader>xx", ":TroubleToggle<CR>", opts)
 
