@@ -197,6 +197,10 @@ vim.keymap.set('n', '<C-l>', "<C-w>l", { noremap = true, silent = false })
 vim.keymap.set('n', 'sh', ":split<Return><C-w>w", { noremap = true, silent = false })
 vim.keymap.set('n', 'sv', ":vsplit<Return><C-w>w", { noremap = true, silent = false })
 
+-- Move text up/down while in visual block
+vim.keymap.set('x', 'J', ":move '>+1<CR>gv-gv", { noremap = true, silent = false })
+vim.keymap.set('x', 'K', ":move '<-2<CR>gv-gv", { noremap = true, silent = false })
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
