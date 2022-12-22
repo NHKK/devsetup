@@ -110,9 +110,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
--- Set highlight on search
-vim.o.hlsearch = false
-
 -- Make line numbers default
 vim.wo.number = true
 
@@ -126,11 +123,13 @@ vim.o.breakindent = true
 vim.o.undofile = true
 
 -- Case insensitive searching UNLESS /C or capital in search
+vim.o.hlsearch = false
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 300
+vim.o.timeoutlen = 100
 vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
@@ -139,6 +138,31 @@ vim.o.termguicolors = true
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+
+-- Custom additions
+
+-- Custom options
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.clipboard = "unnamedplus"
+vim.o.cmdheight = 2
+vim.o.conceallevel = 0
+vim.o.pumheight = 10
+vim.o.showmode = false
+vim.o.showtabline = 2
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.swapfile = false
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.cursorline = true
+vim.o.numberwidth = 4
+vim.o.signcolumn = "yes"
+vim.o.wrap = false
+vim.o.scrolloff = 999
+vim.o.sidescrolloff = 8
+vim.o.guifont = "hack:h17"
 
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
