@@ -163,6 +163,13 @@ vim.o.wrap = false
 vim.o.scrolloff = 999
 vim.o.sidescrolloff = 8
 vim.o.guifont = "hack:h17"
+vim.o.lazyredraw = true
+vim.o.laststatus = 2
+vim.o.ruler = true
+vim.o.wildmenu = true
+vim.o.title = true
+vim.o.spell = true
+vim.o.autoread = true
 
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
