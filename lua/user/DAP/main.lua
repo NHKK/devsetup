@@ -73,16 +73,20 @@ require('dapui').setup({
     max_type_length = nil,
   }
 })
-dap.listeners.after.event_initialized['dapui_config'] = function()
-  vim.cmd('tabfirst|tabnext')
+-- dap.listeners.after.event_initialized['dapui_config'] = function()
+--   vim.cmd('tabfirst|tabnext')
+--   dapui.open()
+-- end
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
 end
--- dap.listeners.before.event_terminated['dapui_config'] = function()
---   dapui.close()
--- end
--- dap.listeners.before.event_exited['dapui_config'] = function()
---   dapui.close()
--- end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
 
 -- # Keymap
 local buf_map = function(mode, lhs, rhs, opts)
@@ -106,19 +110,5 @@ buf_map('n', '<Leader>dw[', ':lua require(\'dapui\').toggle(1)<CR>')
 buf_map('n', '<Leader>dw]', ':lua require(\'dapui\').toggle(2)<CR>')
 
 -- # DAP Config
--- require('user.DAP.languages.python')
 require('user.DAP.languages.typescript')
--- require('user.DAP.languages.cpp')
--- require('user.DAP.languages.go')
 
--- ## DAP `launch.json`
--- require('dap.ext.vscode').load_launchjs(nil, {
---   ['pwa-node'] = {
---     'javascript',
---     'typescript',
---   },
---   ['node'] = {
---     'javascript',
---     'typescript',
---   },
--- })

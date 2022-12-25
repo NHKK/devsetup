@@ -2,7 +2,7 @@ local dap = require('dap')
 
 require('dap-vscode-js').setup({
   node_path = 'node',
-  debugger_path = os.getenv('HOME') .. '/.DAP/vscode-js-debug',
+  debugger_path = os.getenv('HOME') .. '/.config/debuggers/vscode-js-debug',
   adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
 })
 
@@ -121,3 +121,4 @@ for i, ext in ipairs(exts) do
     },
   }
 end
+
