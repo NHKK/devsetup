@@ -1,18 +1,27 @@
-require('mini.statusline').setup({})
-require('mini.comment').setup({
-  mappings = {
-    comment = "gc"
-  }
-})
-require('mini.jump2d').setup({
-  mappings = {
-    start_jumping = "S"
-  }
-})
-require('mini.indentscope').setup({})
-require('mini.pairs').setup({})
-require('mini.tabline').setup({})
-require('mini.base16').setup({
+local M = {
+	"echasnovski/mini.nvim",
+	lazy = false
+}
+
+function M.config()
+	require("mini.indentscope").setup({})
+	require("mini.pairs").setup({})
+	require("mini.statusline").setup({})
+	require("mini.tabline").setup({})
+
+	require("mini.comment").setup({
+		mappings = {
+			comment = "gc"
+		}
+	})
+
+	require("mini.jump2d").setup({
+		mappings = {
+			start_jumping = "S"
+		}
+	})
+
+	require('mini.base16').setup({
 
   -- Catppuccin Mocha
   -- palette = {
@@ -76,3 +85,6 @@ require('mini.base16').setup({
 
   use_cterm = true,
 })
+end
+
+return M

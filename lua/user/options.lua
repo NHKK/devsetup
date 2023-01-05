@@ -1,45 +1,38 @@
-vim.opt.termguicolors = true
-vim.opt.guicursor = ""
-vim.opt.nu = true
-vim.opt.relativenumber = true
-vim.opt.syntax = "on"
+local fn = vim.fn
+local o = vim.opt
 
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
+o.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 
-vim.opt.smartindent = true
-vim.opt.wrap = false
-vim.opt.swapfile = false
-vim.opt.backup = false
+o.number = true
+o.relativenumber = true
 
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+o.shiftwidth = 2
+o.softtabstop = 2
+o.tabstop = 2
 
-vim.o.updatetime = 300
-vim.o.timeoutlen = 200
-
-vim.o.completeopt = 'menuone,noselect'
-
-vim.o.clipboard = "unnamedplus"
-vim.o.cmdheight = 2
-
-vim.o.showmode = false
-vim.o.showtabline = 2
-vim.o.splitbelow = true
-vim.o.splitright = true
-vim.o.scrolloff = 999
-vim.o.sidescrolloff = 8
-vim.o.guifont = "hack:h17"
-vim.o.lazyredraw = true
-vim.o.laststatus = 2
-vim.o.ruler = true
-vim.o.wildmenu = true
-vim.o.title = true
-vim.o.spell = true
-vim.o.autoread = true
-vim.g.mapleader = ' '
-vim.opt.mouse = nil
+o.wrap = false
+o.smartcase = true
+o.smartindent = true
+o.swapfile = false
+o.termguicolors = true
+o.undofile = false
+o.wildignorecase = true
+o.wildmode = "full"
+o.hlsearch = false
+o.incsearch = true
+o.ignorecase = true
+o.updatetime = 300
+o.timeoutlen = 400
+o.showtabline = 2
+o.scrolloff = 999
+o.sidescrolloff = 8
+o.lazyredraw = true
+o.laststatus = 2
+o.ruler = true
+o.wildmenu = true
+o.title = true
+o.spell = true
+o.autoread = true
+o.mouse = nil
+o.clipboard = "unnamedplus"
+o.cmdheight = 1
