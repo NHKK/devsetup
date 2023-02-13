@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 vim.keymap.set({ 'n', 'v' }, 'y', '"*y :let @+=@*<CR>', { noremap = true, silent = true })
 
 -- Windows
