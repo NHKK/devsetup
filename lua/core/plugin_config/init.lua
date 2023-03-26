@@ -1,0 +1,5 @@
+require("core.plugin_config.cmp")
+require("core.plugin_config.lspconfig")
+require("core.plugin_config.lualine")
+require("core.plugin_config.mason")
+require("core.plugin_config.treesitter")
