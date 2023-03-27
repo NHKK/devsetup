@@ -80,12 +80,8 @@ local plugins = {
 
   },
   {
-    "jay-babu/mason-null-ls.nvim",
+"lukas-reineke/lsp-format.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
-    },
   }
 }
 
