@@ -1,19 +1,24 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.backspace = '2'
-vim.opt.showcmd = true
-vim.opt.laststatus = 2
-vim.opt.autowrite = true
-vim.opt.cursorline = true
-vim.opt.autoread = true
+local o = vim.opt
+
+o.backspace = '2'
+o.showcmd = true
+o.laststatus = 2
+o.autowrite = true
+o.cursorline = true
+o.autoread = true
 
 -- use spaces for tabs and whatnot
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.shiftround = true
-vim.opt.expandtab = true
+o.tabstop = 2
+o.shiftwidth = 2
+o.shiftround = true
+o.expandtab = true
 
 --Line numbers
-vim.wo.number = true
-vim.o.cmdheight = 0
+o.number = true
+o.relativenumber = true
+o.cmdheight = 0
+o.mouse = nil
+o.clipboard = "unnamedplus"
