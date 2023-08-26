@@ -1,4 +1,5 @@
 local cmp = require('cmp')
+local defaults = require('cmp.config.default')()
 local luasnip = require('luasnip')
 
 require('luasnip.loaders.from_vscode').lazy_load()
@@ -43,5 +44,53 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'async_path' },
+  },
+  sorting = defaults.sorting,
+  window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
+  formatting = {
+    format = function(_, item)
+      local icons = {
+        Array = ' ',
+        Boolean = ' ',
+        Class = ' ',
+        Color = ' ',
+        Constant = ' ',
+        Constructor = ' ',
+        Copilot = ' ',
+        Enum = ' ',
+        EnumMember = ' ',
+        Event = ' ',
+        Field = ' ',
+        File = ' ',
+        Folder = ' ',
+        Function = ' ',
+        Interface = ' ',
+        Key = ' ',
+        Keyword = ' ',
+        Method = ' ',
+        Module = ' ',
+        Namespace = ' ',
+        Null = ' ',
+        Number = ' ',
+        Object = ' ',
+        Operator = ' ',
+        Package = ' ',
+        Property = ' ',
+        Reference = ' ',
+        Snippet = ' ',
+        String = ' ',
+        Struct = ' ',
+        Text = ' ',
+        TypeParameter = ' ',
+        Unit = ' ',
+        Value = ' ',
+        Variable = ' ',
+      }
+      if icons[item.kind] then
+        item.kind = icons[item.kind] .. item.kind
+      end
+      return item
+    end,
   },
 }
