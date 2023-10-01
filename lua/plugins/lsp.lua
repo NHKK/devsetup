@@ -1,279 +1,102 @@
-local function lsp_related_ui_adjust()
-  require("lspconfig.ui.windows").default_options.border = "rounded"
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics,
+local M = {
+  "neovim/nvim-lspconfig",
+  lazy = false,
+  event = { "BufReadPre" },
+  dependencies = {
     {
-      virtual_text = false,
-      signs = true,
-      update_in_insert = false,
-      underline = true,
-    }
-  )
-
-  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-  end
-
-  vim.diagnostic.config({
-    virtual_text = {
-      prefix = '●',
-      severity_sort = true,
-      spacing = 4
+      "hrsh7th/cmp-nvim-lsp",
     },
-    float = {
-      border = "rounded",
-      source = "always", -- Or "if_many"
-      prefix = " - ",
-    },
-    severity_sort = true,
-  })
-end
-
-local format = function()
-  local buf = vim.api.nvim_get_current_buf()
-  if require("core.autoformat").autoformat == false then
-    return
-  end
-
-  local ft = vim.bo[buf].filetype
-  local have_nls = #require("null-ls.sources").get_available(ft, "NULL_LS_FORMATTING") > 0
-
-  vim.lsp.buf.format({
-    bufnr = buf,
-    timeout_ms = 5000,
-    filter = function(client)
-      if have_nls then
-        return client.name == "null-ls"
-      end
-      return client.name ~= "null-ls"
-    end,
-  })
-end
-
-local servers = {
-  pyright = {
-    name = "pyright",
-    config = {
-      settings = {
-        python = {
-          analysis = {
-            diagnosticMode = "openFilesOnly"
-          }
-        }
-      }
-    }
   },
-  tsserver = {
-    name = "typescript-language-server",
-  },
-  lua_ls = {
-    name = "lua-language-server",
-    config = {
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { 'vim' }
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            -- library = vim.api.nvim_get_runtime_file("", true),
-            library = {
-              vim.fn.stdpath("config"),
-            },
-            checkThirdParty = false
-          },
-          -- Do not send telemetry data containing a randomized but unique identifier
-          telemetry = {
-            enable = false
-          }
-        }
-      }
-    }
-  }
 }
 
-local function lspconfig_setup()
-  vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-      local bufnr = args.buf
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-      if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = vim.api.nvim_create_augroup("LspFormat." .. bufnr, {}),
-          buffer = bufnr,
-          callback = function()
-            if not require("core.autoformat").autoformat then
-              return
-            end
-            format()
-          end,
-        })
-
-        vim.api.nvim_create_user_command("FormatToggle", function()
-          require("core.autoformat").toggle()
-        end, { desc = "Toggle Format on Save" })
-      end
-
-      local opts = { buffer = bufnr }
-
-      vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, opts)
-      vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, opts)
-      vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, opts)
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-      vim.keymap.set({ 'i', 'n' }, '<C-s>', vim.lsp.buf.signature_help, opts)
-      vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-      vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-
-      -- auto show diagnostic when cursor hold
-      vim.api.nvim_create_autocmd("CursorHold", {
-        buffer = bufnr,
-        callback = function()
-          local float_opts = {
-            focusable = false,
-            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-          }
-
-          if not vim.b.diagnostics_pos then
-            vim.b.diagnostics_pos = { nil, nil }
-          end
-
-          local cursor_pos = vim.api.nvim_win_get_cursor(0)
-          if (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
-              and #vim.diagnostic.get() > 0
-          then
-            vim.diagnostic.open_float(nil, float_opts)
-          end
-
-          vim.b.diagnostics_pos = cursor_pos
-        end,
-      })
-    end
-  })
+function M.config()
+  local cmp_nvim_lsp = require "cmp_nvim_lsp"
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
-  local setup_server = function(server, config)
-    if not config then
-      return
-    end
+  local function lsp_keymaps(bufnr)
+    local opts = { noremap = true, silent = true }
+    local keymap = vim.api.nvim_buf_set_keymap
+    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+    keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
+    keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", opts)
+    keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+    keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
+    keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
+    keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+    keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+  end
 
-    if type(config) ~= "table" then
-      config = {}
-    end
+  local lspconfig = require "lspconfig"
+  local on_attach = function(client, bufnr)
+    lsp_keymaps(bufnr)
+    require("illuminate").on_attach(client)
+  end
 
-    config = vim.tbl_deep_extend("force", {
+  for _, server in pairs(require("utils").servers) do
+    Opts = {
+      on_attach = on_attach,
       capabilities = capabilities,
-    }, config)
+    }
 
-    require("lspconfig")[server].setup(config)
-  end
+    server = vim.split(server, "@")[1]
 
-  for server, setting in pairs(servers) do
-    if setting.disabled then
-      goto continue
+    local require_ok, conf_opts = pcall(require, "settings." .. server)
+    if require_ok then
+      Opts = vim.tbl_deep_extend("force", conf_opts, Opts)
     end
 
-    if setting.config ~= nil then
-      setup_server(server, setting.config)
-    else
-      setup_server(server, {})
-    end
-
-    ::continue::
+    lspconfig[server].setup(Opts)
   end
+
+  local signs = {
+    { name = "DiagnosticSignError", text = "" },
+    { name = "DiagnosticSignWarn", text = "" },
+    { name = "DiagnosticSignHint", text = "" },
+    { name = "DiagnosticSignInfo", text = "" },
+  }
+
+  for _, sign in ipairs(signs) do
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+  end
+
+  local config = {
+    virtual_text = false,
+    signs = {
+      active = signs,
+    },
+    update_in_insert = true,
+    underline = true,
+    severity_sort = true,
+    float = {
+      focusable = false,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+      suffix = "",
+    },
+  }
+
+  vim.diagnostic.config(config)
+
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = "rounded",
+  })
+
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = "rounded",
+  })
 end
 
-return {
-  -- configuration for nvim lsp
-  {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
+return M
 
-      -- nvim-cmp source for neovim's built-in LSP
-      {
-        "hrsh7th/nvim-cmp",
-        "hrsh7th/cmp-nvim-lsp",
-      },
-
-      -- Use Neovim as a language server to inject LSP
-      {
-        "jose-elias-alvarez/null-ls.nvim",
-        config = function()
-          require("null-ls").setup()
-        end
-      },
-    },
-    config = function()
-      lsp_related_ui_adjust()
-      lspconfig_setup()
-    end
-  },
-
-  -- managing tool for lsp
-  {
-    "williamboman/mason.nvim",
-    dependencies = {
-      -- bridges mason with the lspconfig
-      {
-        "williamboman/mason-lspconfig.nvim",
-        config = function()
-          require("mason-lspconfig").setup {}
-        end
-      },
-
-      -- Install and upgrade third party tools automatically
-      {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        config = function()
-          local server_names = {}
-          for server, setting in pairs(servers) do
-            table.insert(server_names, setting.name)
-          end
-          require("mason-tool-installer").setup({
-            ensure_installed = server_names
-          })
-        end
-      },
-
-      -- bridges mason.nvim with the null-ls plugin
-      {
-        "jay-babu/mason-null-ls.nvim",
-        config = function()
-          local nls = require("null-ls")
-          require("mason-null-ls").setup {
-            ensure_installed = {
-              "prettier",
-            },
-            handlers = {
-              prettier = function(source_name, methods)
-                nls.register(nls.builtins.formatting.prettier.with({
-                  filetypes = { "ts", "js" },
-                  extra_args = { "--print-width", "120" }
-                }))
-              end,
-            }
-          }
-        end
-      },
-    },
-    config = function()
-      require("mason").setup {
-        providers = {
-          "mason.providers.registry-api", -- default
-          "mason.providers.client",
-        },
-        ui = {
-          height = 0.85,
-          border = "rounded",
-        }
-      }
-    end
-  },
-}
